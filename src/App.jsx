@@ -25,7 +25,17 @@ function App() {
   const [exerciseName, setExerciseName] = useState("");
   const [sets, setSets] = useState({});
   const [history, setHistory] = useState({});
+  const handlekeydown = (e) => {
+    if (e.key === "Enter") {
+      login();
+    }
+ };
 
+ const handlekeydownb = (e) => {
+    if (e.key === "Enter") {
+      addExercise();
+    }
+ };
   // --------------------------------
   // AUTHENTICATION
   // --------------------------------
@@ -390,8 +400,9 @@ async function removeExercise(id) {
             placeholder="Email"
             value={email}
             onChange={(event) =>
-              setEmail(event.target.value)
-            }
+              setEmail(event.target.value)}
+              onKeyDown={handlekeydown}
+            
           />
 
           <input
@@ -399,8 +410,9 @@ async function removeExercise(id) {
             placeholder="Senha"
             value={password}
             onChange={(event) =>
-              setPassword(event.target.value)
-            }
+              setPassword(event.target.value)}
+              onKeyDown={handlekeydown}
+            
           />
 
           <button onClick={login}>
@@ -487,6 +499,7 @@ async function removeExercise(id) {
             onChange={(event) =>
               setExerciseName(event.target.value)
             }
+            onKeyDown={handlekeydownb}
           />
 
           <button onClick={addExercise}>
@@ -604,6 +617,45 @@ async function removeExercise(id) {
 />
     </label>
   </div>
+
+  <div className="set-row">
+    <h4>3ª SÉRIE</h4>
+
+    <label>
+      Peso
+      <input
+  type="number"
+  placeholder="Peso"
+  value={sets[exercise.id]?.[3]?.weight || ""}
+  onChange={(event) =>
+    updateSet(
+      exercise.id,
+      3,
+      "weight",
+      event.target.value
+    )
+  }
+/>
+    </label>
+
+    <label>
+      Repetições
+      <input
+  type="number"
+  placeholder="Reps"
+  value={sets[exercise.id]?.[3]?.reps || ""}
+  onChange={(event) =>
+    updateSet(
+      exercise.id,
+      3,
+      "reps",
+      event.target.value
+    )
+  }
+/>
+    </label>
+  </div>
+  
 
   <button className="save-button"
   onClick={() => saveWorkout(exercise.id)}>
