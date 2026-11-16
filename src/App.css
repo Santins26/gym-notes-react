@@ -2,6 +2,28 @@
   width: 100%;
 }
 
+.root {
+  min-height: 100vh;
+}
+
+.root.light {
+  background-color: white;
+}
+
+.root.dark {
+  background-color: #1e1e1e;
+}
+
+.app.light {
+  background-color: white;
+  color: #222;
+}
+
+.app.dark {
+  background-color: #1e1e1e;
+  color: rgb(249, 249, 249);
+}
+
 .app {
   width: min(100% - 32px, 700px);
   margin: 0 auto;
@@ -57,6 +79,7 @@ button {
   cursor: pointer;
   font: inherit;
   font-weight: 600;
+
 }
 
 .add-form button,
@@ -146,4 +169,29 @@ button {
   .add-form {
     flex-direction: column;
   }
+}
+
+.menubuttons {
+  display: flex;
+  gap: 8px;
+}
+
+.theme-button img {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+}
+
+.theme-button {
+  background: transparent;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+}
+
+.theme-button:hover {
+  background: rgba(128, 128, 128, 0.15);
 }

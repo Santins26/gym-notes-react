@@ -16,6 +16,7 @@ const days = [
 function App() {
   const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -355,6 +356,17 @@ async function removeExercise(id) {
 
   await loadExercises();
 }
+function toggleTheme() {
+  let newTheme;
+    if (theme === "light") {
+      newTheme = "dark";
+    } else {
+      newTheme = "light";
+    }
+
+    setTheme(newTheme);
+    localStorage.setItem("theme", newTheme)
+  }
 
   async function signup() {
     const { error } =
@@ -453,7 +465,8 @@ async function removeExercise(id) {
   // GYM NOTES
 
   return (
-    <main className="app">
+    <div className={`root ${theme}`}>
+   <main className={`app ${theme}`}>
 
       <header className="app-header">
 
@@ -463,9 +476,28 @@ async function removeExercise(id) {
           Logado como: {session.user.email}
         </p>
 
+        <div className="menubuttons">
+
         <button onClick={logout}>
+          
           Sair
         </button>
+
+        <button
+  className="theme-button"
+  onClick={toggleTheme}
+  aria-label="Toggle theme"
+>
+  <img
+    src={
+      theme === "light"
+        ? "src/assets/sun-light.png"
+        : "src/assets/moon-dark.png"
+    }
+    alt={theme === "light" ? "Light mode" : "Dark mode"}
+  />
+</button>
+        </div>
 
       </header>
 
@@ -703,9 +735,9 @@ async function removeExercise(id) {
       </section>
 
     </main>
+    </div>
   );
 }
-
 
 
 export default App;
