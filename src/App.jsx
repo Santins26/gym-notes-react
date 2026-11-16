@@ -12,6 +12,7 @@ const days = [
   { value: "domingo", label: "Domingo" },
 ];
 
+
 function App() {
   const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -19,7 +20,7 @@ function App() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const [day, setDay] = useState("segunda");
+  const [day, setDay] = useState(localStorage.getItem("day") || "segunda");
   const [exercises, setExercises] = useState([]);
 
   const [exerciseName, setExerciseName] = useState("");
@@ -36,9 +37,8 @@ function App() {
       addExercise();
     }
  };
-  // --------------------------------
-  // AUTHENTICATION
-  // --------------------------------
+
+  // autenticação
 
   useEffect(() => {
     async function getSession() {
@@ -65,9 +65,20 @@ function App() {
     };
   }, []);
 
-  // --------------------------------
-  // LOAD EXERCISES
-  // --------------------------------
+  useEffect(() => {
+   supabase.auth.onAuthStateChange(async (event, session) => {
+     if (event == "PASSWORD_RECOVERY") {
+       const newPassword = prompt("What would you like your new password to be?");
+       const { data, error } = await supabase.auth
+         .updateUser({ password: newPassword })
+       if (data) alert("Password updated successfully!")
+       if (error) alert("There was an error updating your password.")
+     }
+   })
+ }, [])
+
+  // Carregar os exercicios
+
 
   useEffect(() => {
     if (!session) {
@@ -306,9 +317,9 @@ async function saveWorkout(exerciseId) {
   );
 }
 
-  // --------------------------------
+
+
   // LOGIN
-  // --------------------------------
 
   async function login() {
     const { error } =
@@ -321,6 +332,12 @@ async function saveWorkout(exerciseId) {
       alert(error.message);
     }
   }
+
+
+async function resetPassword() {
+  const { data, error } = await supabase.auth
+  .resetPasswordForEmail(email)
+}
 
 async function removeExercise(id) {
   const { error } = await supabase
@@ -355,10 +372,12 @@ async function removeExercise(id) {
       "Conta criada! Verifique seu email se necessário."
     );
   }
+  
 
-  // --------------------------------
+
+
   // LOGOUT
-  // --------------------------------
+
 
   async function logout() {
     const { error } =
@@ -372,17 +391,15 @@ async function removeExercise(id) {
     }
   }
 
-  // --------------------------------
   // LOADING
-  // --------------------------------
+
 
   if (loading) {
     return <p>Carregando...</p>;
   }
 
-  // --------------------------------
   // LOGIN SCREEN
-  // --------------------------------
+
 
   if (!session) {
     return (
@@ -423,15 +440,17 @@ async function removeExercise(id) {
             Criar conta
           </button>
 
+           <button onClick={resetPassword}>
+            Esqueci a senha
+          </button>
+
         </section>
 
       </main>
     );
   }
 
-  // --------------------------------
   // GYM NOTES
-  // --------------------------------
 
   return (
     <main className="app">
@@ -451,7 +470,7 @@ async function removeExercise(id) {
       </header>
 
 
-      {/* DAY SELECT */}
+      {/* seleção de dias*/}
 
       <section className="day-section">
 
@@ -462,9 +481,10 @@ async function removeExercise(id) {
         <select
           id="day"
           value={day}
-          onChange={(event) =>
+          onChange={(event) => {
             setDay(event.target.value)
-          }
+            localStorage.setItem("day", event.target.value)
+          }}
         >
 
           {days.map((item) => (
@@ -481,7 +501,7 @@ async function removeExercise(id) {
       </section>
 
 
-      {/* ADD EXERCISE */}
+      {/* adicionar exercicio*/}
 
       <section className="add-section">
 
@@ -685,5 +705,7 @@ async function removeExercise(id) {
     </main>
   );
 }
+
+
 
 export default App;
