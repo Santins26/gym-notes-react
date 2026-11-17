@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { supabase } from "./supabase";
 import "./App.css";
+import sunLight from "./assets/sun-light.png";
+import moonDark from "./assets/moon-dark.png";
 
 const days = [
   { value: "segunda", label: "Segunda" },
@@ -489,13 +491,9 @@ function toggleTheme() {
   aria-label="Toggle theme"
 >
   <img
-    src={
-      theme === "light"
-        ? "src/assets/sun-light.png"
-        : "src/assets/moon-dark.png"
-    }
-    alt={theme === "light" ? "Light mode" : "Dark mode"}
-  />
+  src={theme === "light" ? sunLight : moonDark}
+  alt={theme === "light" ? "Light mode" : "Dark mode"}
+/>
 </button>
         </div>
 

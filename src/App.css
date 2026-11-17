@@ -1,9 +1,31 @@
+html {
+  background-color: var(--page-background);
+}
+
+body {
+  background-color: var(--page-background);
+}
+
+html:has(.root.light) {
+  --page-background: white;
+}
+
+html:has(.root.dark) {
+  --page-background: #1e1e1e;
+}
+
+
+
 #root {
   width: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding:0;
 }
 
 .root {
   min-height: 100vh;
+  min-height: 100dvh;
 }
 
 .root.light {
@@ -28,6 +50,7 @@
   width: min(100% - 32px, 700px);
   margin: 0 auto;
   padding: 32px 0;
+  box-sizing: border-box;
 }
 
 .app-header {
