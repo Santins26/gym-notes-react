@@ -11,7 +11,7 @@ html:has(.root.light) {
 }
 
 html:has(.root.dark) {
-  --page-background: #1e1e1e;
+  --page-background: #000000;
 }
 
 
@@ -33,16 +33,16 @@ html:has(.root.dark) {
 }
 
 .root.dark {
-  background-color: #1e1e1e;
+  background-color: #000000;
 }
 
 .app.light {
   background-color: white;
-  color: #222;
+  color: #000000;
 }
 
 .app.dark {
-  background-color: #1e1e1e;
+  background-color: #000000;
   color: rgb(249, 249, 249);
 }
 
